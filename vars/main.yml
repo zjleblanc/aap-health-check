@@ -1,0 +1,19 @@
+# Default variable usage designed for AAP 2.5+
+# For AAP 2.4, modify the component specific variables to authenticate with the individual components
+---
+gateway_host: "{{ lookup('ansible.builtin.env', 'GATEWAY_HOSTNAME') }}"
+gateway_api: "api/gateway/v1"
+gateway_token: "{{ lookup('ansible.builtin.env', 'GATEWAY_API_TOKEN') }}"
+
+controller_host: "{{ gateway_host }}"
+controller_api: "api/controller/v2"
+controller_token: "{{ gateway_token }}"
+
+pah_host: "{{ gateway_host }}"
+pah_api: "api/galaxy/pulp/api/v3"
+pah_token: "{{ gateway_token }}"
+
+report_title: Ansible Automation Platform Status
+report_desc: Ansible Automation Platform status report based on health check endpoints
+report_subtitle: "Based on health check performed at {{ report_timestamp }}"
+report_timestamp: "{{ lookup('pipe', 'date +\"%Y-%m-%d @ %H:%M:%S\"') }}"

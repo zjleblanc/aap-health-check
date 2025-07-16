@@ -1,0 +1,24 @@
+---
+- name: Perform Health Check of Ansible Automation Platform
+  hosts: localhost
+  gather_facts: false
+  become: false
+
+  vars_files:
+    - vars/main.yml
+
+  tasks:
+    - name: Perform Health Checks
+      ansible.builtin.include_tasks:
+        file: tasks/health_check.yml
+        apply:
+          tags: health_check
+
+    - name: Generate Report
+      ansible.builtin.include_tasks:
+        file: tasks/report.yml
+        apply:
+          tags: report
+      vars:
+        health_check_remote_host: report_server # named host in my inventory
+        health_check_output_dest: /var/www/reports.autodotes.com/misc/aap_health_check.html

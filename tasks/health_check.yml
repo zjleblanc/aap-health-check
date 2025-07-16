@@ -1,0 +1,50 @@
+- name: Perform Health Check | Gateway
+  when: gateway_host is defined
+  ignore_errors: true
+  register: r_health_check_gateway
+  loop_control:
+    loop_var: endpoint
+  loop:
+    - ping/
+    - status/
+  ansible.builtin.uri:
+    url: "{{ gateway_host }}/{{ gateway_api }}/{{ endpoint }}"
+    method: GET
+    headers:
+      Authorization: "Bearer {{ gateway_token }}"
+
+- name: Debug results | Gateway
+  tags: debug
+  ansible.builtin.copy:
+    content: "{{ r_health_check_gateway.results | to_nice_json(indent=2) }}"
+    dest: "{{ playbook_dir }}/.testing/gateway_results.json"
+
+- name: Perform Health Check | Controller
+  ignore_errors: true
+  register: r_health_check_controller
+  ansible.builtin.uri:
+    url: "{{ controller_host }}/{{ controller_api }}/ping/"
+    method: GET
+    headers:
+      Authorization: "Bearer {{ controller_token }}"
+
+- name: Debug results | Controller
+  tags: debug
+  ansible.builtin.copy:
+    content: "{{ r_health_check_controller | to_nice_json(indent=2) }}"
+    dest: "{{ playbook_dir }}/.testing/controller_results.json"
+
+- name: Perform Health Check | Private Automation Hub
+  ignore_errors: true
+  register: r_health_check_pah
+  ansible.builtin.uri:
+    url: "{{ pah_host }}/{{ pah_api }}/status/"
+    method: GET
+    headers:
+      Authorization: "Bearer {{ pah_token }}"
+
+- name: Debug results | Private Automation Hub
+  tags: debug
+  ansible.builtin.copy:
+    content: "{{ r_health_check_pah | to_nice_json(indent=2) }}"
+    dest: "{{ playbook_dir }}/.testing/pah_results.json"
