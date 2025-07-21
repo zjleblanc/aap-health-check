@@ -1,0 +1,3 @@
+all:
+  vars:
+    report_server_dest: /usr/share/nginx/html/index.html

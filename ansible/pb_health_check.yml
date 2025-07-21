@@ -20,5 +20,5 @@
         apply:
           tags: report
       vars:
-        health_check_remote_host: report_server # named host in my inventory
-        health_check_output_dest: /var/www/reports.autodotes.com/misc/aap_health_check.html
+        health_check_remote_dest: "{{ report_server is defined }}" # named host in my inventory
+        health_check_output_dest: "{{ report_server_dest }}"

@@ -20,17 +20,18 @@
     pah_total_readable: "{{ r_health_check_pah.json.storage['total'] | human_readable(unit='G') }}"
 
 - name: Generate report on remote host
-  when: health_check_remote_host is defined
+  when: health_check_remote_dest
   delegate_to: "{{ health_check_remote_host }}"
   become: true
+  register: r_gen_report_remote
   ansible.builtin.copy:
     content: "{{ lookup('template', playbook_dir + '/templates/health_check_report.html.j2') }}"
     dest: "{{ health_check_output_dest }}"
     mode: "0664"
 
 - name: Generate report on localhost
-  when: health_check_remote_host is not defined
+  when: not health_check_remote_dest
   ansible.builtin.copy:
     content: "{{ lookup('template', playbook_dir + '/templates/health_check_report.html.j2') }}"
-    dest: "{{ playbook_dir }}/health_check_report.html"
+    dest: "{{ health_check_output_dest  }}"
     mode: "0664"

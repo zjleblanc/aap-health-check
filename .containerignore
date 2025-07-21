@@ -1,0 +1,6 @@
+.ansible/
+.attachments/
+.testing/
+.venv/
+
+ansible/inventory.remote.yml
