@@ -15,7 +15,7 @@ pah_host: "{{ (pah_host_env) | ternary(pah_host_env, gateway_host) }}"
 pah_api: "{{ lookup('ansible.builtin.env', 'PAH_API', default='api/galaxy/pulp/api/v3') }}"
 pah_token: "{{ lookup('ansible.builtin.env', 'PAH_API_TOKEN') }}"
 
-health_check_validate_certs: "{{ lookup('ansible.builtin.env', 'HEALTH_CHECK_VALIDATE_CERTS', default=True)  }}"
+health_check_validate_certs: "{{ lookup('ansible.builtin.env', 'HEALTH_CHECK_VALIDATE_CERTS', default=True) | bool  }}"
 
 report_title: Ansible Automation Platform Status
 report_desc: Ansible Automation Platform status report based on health check endpoints
