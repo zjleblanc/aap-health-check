@@ -5,12 +5,14 @@
     pah_success: "{{ r_health_check_pah is not failed }}"
 
 - name: Set controller metadata
+  when: controller_host
   ignore_errors: true
   ansible.builtin.set_fact:
     instance_capacity: "{{ r_health_check_controller.json.instances | items2dict(key_name='node', value_name='capacity') }}"
     instance_type: "{{ r_health_check_controller.json.instances | items2dict(key_name='node', value_name='node_type') }}"
 
 - name: Set private automation hub metadata
+  when: pah_host
   ignore_errors: true
   ansible.builtin.set_fact:
     pah_free_readable: "{{ r_health_check_pah.json.storage['free'] | human_readable(unit='G') }}"
@@ -20,18 +22,18 @@
     pah_total_readable: "{{ r_health_check_pah.json.storage['total'] | human_readable(unit='G') }}"
 
 - name: Generate report on remote host
-  when: health_check_remote_dest
+  when: health_check_remote_host is defined
   delegate_to: "{{ health_check_remote_host }}"
   become: true
   register: r_gen_report_remote
   ansible.builtin.copy:
     content: "{{ lookup('template', playbook_dir + '/templates/health_check_report.html.j2') }}"
-    dest: "{{ health_check_output_dest }}"
+    dest: "{{ health_check_dest }}"
     mode: "0664"
 
 - name: Generate report on localhost
-  when: not health_check_remote_dest
+  when: not health_check_remote_host is defined
   ansible.builtin.copy:
     content: "{{ lookup('template', playbook_dir + '/templates/health_check_report.html.j2') }}"
-    dest: "{{ health_check_output_dest  }}"
+    dest: "{{ health_check_dest  }}"
     mode: "0664"

@@ -1,5 +1,5 @@
 - name: Perform Health Check | Gateway
-  when: gateway_host is defined
+  when: gateway_host
   ignore_errors: true
   register: r_health_check_gateway
   loop_control:
@@ -12,14 +12,16 @@
     method: GET
     headers:
       Authorization: "Bearer {{ gateway_token }}"
+    validate_certs: "{{ health_check_validate_certs | default(true) }}"
 
 - name: Debug results | Gateway
   tags: debug
   ansible.builtin.copy:
-    content: "{{ r_health_check_gateway.results | to_nice_json(indent=2) }}"
+    content: "{{ r_health_check_gateway | to_nice_json(indent=2) }}"
     dest: "{{ playbook_dir }}/.testing/gateway_results.json"
 
 - name: Perform Health Check | Controller
+  when: controller_host
   ignore_errors: true
   register: r_health_check_controller
   ansible.builtin.uri:
@@ -27,6 +29,7 @@
     method: GET
     headers:
       Authorization: "Bearer {{ controller_token }}"
+    validate_certs: "{{ health_check_validate_certs | default(true) }}"
 
 - name: Debug results | Controller
   tags: debug
@@ -35,6 +38,7 @@
     dest: "{{ playbook_dir }}/.testing/controller_results.json"
 
 - name: Perform Health Check | Private Automation Hub
+  when: pah_host
   ignore_errors: true
   register: r_health_check_pah
   ansible.builtin.uri:
@@ -42,6 +46,7 @@
     method: GET
     headers:
       Authorization: "Bearer {{ pah_token }}"
+    validate_certs: "{{ health_check_validate_certs | default(true) }}"
 
 - name: Debug results | Private Automation Hub
   tags: debug

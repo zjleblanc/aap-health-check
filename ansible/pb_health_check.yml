@@ -19,6 +19,4 @@
         file: tasks/report.yml
         apply:
           tags: report
-      vars:
-        health_check_remote_dest: "{{ report_server is defined }}" # named host in my inventory
-        health_check_output_dest: "{{ report_server_dest }}"
+

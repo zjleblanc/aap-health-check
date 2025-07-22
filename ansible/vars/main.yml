@@ -1,17 +1,21 @@
 # Default variable usage designed for AAP 2.5+
 # For AAP 2.4, modify the component specific variables to authenticate with the individual components
 ---
-gateway_host: "{{ lookup('ansible.builtin.env', 'GATEWAY_HOSTNAME') }}"
+gateway_host: "{{ lookup('ansible.builtin.env', 'GATEWAY_HOSTNAME', default=False) }}"
 gateway_api: "api/gateway/v1"
 gateway_token: "{{ lookup('ansible.builtin.env', 'GATEWAY_API_TOKEN') }}"
 
-controller_host: "{{ gateway_host }}"
-controller_api: "api/controller/v2"
-controller_token: "{{ gateway_token }}"
+controller_host_env: "{{ lookup('ansible.builtin.env', 'CONTROLLER_HOSTNAME', default=False) }}"
+controller_host: "{{ (controller_host_env) | ternary(controller_host_env, gateway_host) }}"
+controller_api: "{{ lookup('ansible.builtin.env', 'CONTROLLER_API', default='api/controller/v2') }}"
+controller_token: "{{ lookup('ansible.builtin.env', 'CONTROLLER_API_TOKEN') }}"
 
-pah_host: "{{ gateway_host }}"
-pah_api: "api/galaxy/pulp/api/v3"
-pah_token: "{{ gateway_token }}"
+pah_host_env: "{{ lookup('ansible.builtin.env', 'PAH_HOSTNAME', default=False) }}"
+pah_host: "{{ (pah_host_env) | ternary(pah_host_env, gateway_host) }}"
+pah_api: "{{ lookup('ansible.builtin.env', 'PAH_API', default='api/galaxy/pulp/api/v3') }}"
+pah_token: "{{ lookup('ansible.builtin.env', 'PAH_API_TOKEN') }}"
+
+health_check_validate_certs: "{{ lookup('ansible.builtin.env', 'HEALTH_CHECK_VALIDATE_CERTS', default=True)  }}"
 
 report_title: Ansible Automation Platform Status
 report_desc: Ansible Automation Platform status report based on health check endpoints

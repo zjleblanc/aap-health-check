@@ -35,7 +35,7 @@
             </div>
         </nav>
         <div class="wrapper">
-          {% if gateway_host is defined %}
+          {% if gateway_host %}
           <div id="gateway">
             <h5>Gateway</h5>
             {% if gateway_success %}
@@ -103,6 +103,7 @@
             {% endif %} <!-- gateway_success -->
           </div>
           {% endif %} <!-- gateway_host -->
+          {% if controller_host %}
           <div id="controller">
             <h5>Controller</h5>
             {% if controller_success %}
@@ -147,6 +148,11 @@
             <p>🚨 Controller health probe failed, something is wrong 🚨</p>
             {% endif %} <!-- controller_success -->
           </div>
+          {% else %}
+            <h5>Controller</h5>
+            <p style="color: rgba(33, 37, 41, 0.75)"><i>Provide a valid GATEWAY_HOST or CONTROLLER_HOST environment variable to view status</i></p>
+          {% endif %} <!-- controller_host -->
+          {% if pah_host %}
           <div id="pah">
             <h5>Private Automation Hub</h5>
             {% if pah_success %}
@@ -210,6 +216,10 @@
             <p>🚨 Private Automation Hub health probe failed, something is wrong 🚨</p>
             {% endif %} <!-- pah_success -->
           </div>
+          {% else %}
+            <h5>Private Automation Hub</h5>
+            <p style="color: rgba(33, 37, 41, 0.75)"><i>Provide a valid GATEWAY_HOST or PAH_HOST environment variable to view status</i></p>
+          {% endif %} <!-- pah_host -->
         </div>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
