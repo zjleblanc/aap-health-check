@@ -6,7 +6,7 @@ Report design based on [Red Hat Access article](https://access.redhat.com/soluti
 
 ## usage
 
-The containerized deployment for a one-shot report is publicly avaiable in Quay<br>
+The containerized deployment for a one-shot report is publicly available in Quay<br>
 `podman pull quay.io/zleblanc/aap-health-check`
 
 The report is dependent on environment variables and volumes provided as podman options at runtime. See instructions below based on your version of AAP.
