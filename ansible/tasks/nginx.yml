@@ -1,0 +1,15 @@
+---
+- name: Check for ssl 
+  register: r_ssl
+  ansible.builtin.stat:
+    path: /etc/ssl/nginx.pem
+
+- name: Assert server name provided
+  when: r_ssl.stat.exists
+  ansible.builtin.assert:
+    that: nginx_server_name | length
+
+- name: Template nginx configuration
+  ansible.builtin.template:
+    src: "{{ playbook_dir }}/templates/nginx.conf.j2"
+    dest: /etc/nginx/nginx.conf

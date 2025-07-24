@@ -20,3 +20,10 @@
         apply:
           tags: report
 
+    - name: Configure Nginx
+      vars:
+        nginx_server_name: "{{ lookup('ansible.builtin.env', 'NGINX_SERVER_NAME') }}"
+      ansible.builtin.include_tasks:
+        file: tasks/nginx.yml
+        apply:
+          tags: nginx

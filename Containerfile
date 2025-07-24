@@ -7,7 +7,6 @@ RUN dnf update -y && \
 ADD ansible /aap-health
 WORKDIR /aap-health
 
-ADD nginx.conf /etc/nginx/nginx.conf
 ADD index.default.html "/usr/share/nginx/html/index.html"
 
 ADD run.sh /
