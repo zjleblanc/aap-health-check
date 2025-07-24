@@ -85,9 +85,6 @@ podman run -p 8080:8080 \
   --secret controller_token,type=env,target=CONTROLLER_API_TOKEN \
   --env PAH_HOSTNAME="https://pah.example.com" \
   --secret pah_token,type=env,target=PAH_API_TOKEN \
-  --env NGINX_SERVER_NAME="status.example.com" \
-  -v /local/path/to/cert:/etc/ssl/nginx.pem \
-  -v /local/path/to/key:/etc/ssl/nginx.key \
   quay.io/zleblanc/aap-health-check
 ```
 
@@ -99,6 +96,9 @@ podman run -p 8443:8443 \
   --secret controller_token,type=env,target=CONTROLLER_API_TOKEN \
   --env PAH_HOSTNAME="https://pah.example.com" \
   --secret pah_token,type=env,target=PAH_API_TOKEN \
+  --env NGINX_SERVER_NAME="status.example.com" \
+  -v /local/path/to/cert:/etc/ssl/nginx.pem \
+  -v /local/path/to/key:/etc/ssl/nginx.key \
   quay.io/zleblanc/aap-health-check
 ```
 
