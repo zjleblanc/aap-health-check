@@ -43,6 +43,12 @@ podman run -p 8080:8080 \
   --env GATEWAY_HOSTNAME="https://aap.example.com" \
   --secret gateway_token,type=env,target=GATEWAY_API_TOKEN \
   quay.io/zleblanc/aap-health-check
+
+# verify
+curl http://localhost:8080/health
+{"status": "AAP health check is up"}
+
+# browse to http://localhost:8080 to view report
 ```
 
 #### run with ssl command
@@ -55,6 +61,12 @@ podman run -p 8443:8443 \
   -v /local/path/to/cert:/etc/ssl/nginx.pem \
   -v /local/path/to/key:/etc/ssl/nginx.key \
   quay.io/zleblanc/aap-health-check
+
+# verify
+curl https://status.example.com:8443/health
+{"status": "AAP health check is up"}
+
+# browse to https://status.example.com:8443 to view report
 ```
 
 ### 2.4 (and earlier)
@@ -86,6 +98,12 @@ podman run -p 8080:8080 \
   --env PAH_HOSTNAME="https://pah.example.com" \
   --secret pah_token,type=env,target=PAH_API_TOKEN \
   quay.io/zleblanc/aap-health-check
+
+# verify
+curl http://localhost:8080/health
+{"status": "AAP health check is up"}
+
+# browse to http://localhost:8080 to view report
 ```
 
 #### run with ssl command
@@ -100,6 +118,12 @@ podman run -p 8443:8443 \
   -v /local/path/to/cert:/etc/ssl/nginx.pem \
   -v /local/path/to/key:/etc/ssl/nginx.key \
   quay.io/zleblanc/aap-health-check
+
+# verify
+curl https://status.example.com:8443/health
+{"status": "AAP health check is up"}
+
+# browse to https://status.example.com:8443 to view report
 ```
 
 ## healthy report (v1)

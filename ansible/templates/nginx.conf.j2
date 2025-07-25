@@ -26,22 +26,33 @@ http {
         listen       [::]:8080 default_server;
         server_name  _;
         root         /usr/share/nginx/html;
+
+        location /health {
+            default_type application/json;
+            return 200 '{"status": "AAP health check is up"}';
+        }
     }
 
     {% if r_ssl.stat.exists %}
     server {
         listen       8443 ssl;
         listen       [::]:8443 ssl;
+        server_name {{ nginx_server_name }};
+        
+        access_log /var/log/nginx/access.log;
+        error_log /var/log/nginx/error.log;
 
         ssl_certificate /etc/ssl/nginx.pem;
 	    ssl_certificate_key /etc/ssl/nginx.key;
-        server_name {{ nginx_server_name }};
-        access_log /var/log/nginx/access.log;
-        error_log /var/log/nginx/error.log;
-        root /usr/share/nginx/html;
-
         ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3; # Dropping SSLv3, ref: POODLE
         ssl_prefer_server_ciphers on;
+
+        root /usr/share/nginx/html;
+
+        location /health {
+            default_type application/json;
+            return 200 '{"status": "AAP health check is up"}';
+        }
     }
     {% endif %}
 }
