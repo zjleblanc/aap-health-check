@@ -4,6 +4,12 @@ Lightweight automation designed to periodically run a health check playbook agai
 
 Report design based on [Red Hat Access article](https://access.redhat.com/solutions/7113839) outlining how to perform a health check of Ansible Automation Platform.
 
+## healthy report
+
+[Static Report](https://reports.autodotes.com/misc/aap_health_check.html)
+
+![Healthy AAP Report](./.attachments/health_check_report_v1.png)
+
 ## usage
 
 The containerized deployment for a one-shot report is publicly available in Quay<br>
@@ -125,9 +131,3 @@ curl https://status.example.com:8443/health
 
 # browse to https://status.example.com:8443 to view report
 ```
-
-## healthy report (v1)
-
-[Static Report](https://reports.autodotes.com/misc/aap_health_check.html)
-
-![Healthy AAP Report](./.attachments/health_check_report_v1.png)
